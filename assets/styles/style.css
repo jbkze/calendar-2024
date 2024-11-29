@@ -1,40 +1,49 @@
 /* ==========================================
-   style.CSS
-   These are the final styles for the project.
-   Author:  Saddam Arbaa
-   Website: (TODO)
+   style.css
+   Diese Datei enthält die endgültigen Stile für das Adventskalender-Projekt.
+   Autor: Saddam Arbaa (angepasst)
    ========================================== */
 
-/* ====== Import google fonts =========== */
-
+/* ====== Importiere Google Fonts ====== */
 @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;400;700&display=swap");
 
-/* ====== Global Rules ======*/
+/* ====== Globale Regeln ====== */
 * {
   box-sizing: border-box;
 }
 
+
 body {
-  background-image: url("../images/christmas_bg.jpg");
+  /* Mehrere Radialverläufe */
+  background-image: 
+    radial-gradient(circle, #ffffff, #ffffff),
+    radial-gradient(circle at top right, #ff8a00, ffffff, #ffffff);
+  
+  /* Hintergrundfüllung */
+  background-blend-mode: overlay;
+
+  /* Weitere Stile für die Anpassung */
   background-size: cover;
-  background-repeat: none;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+
+  /* Padding und Textformat */
   padding: 3vh;
-  font-size: 2.5rem;
   display: flex;
   justify-content: center;
   margin: auto;
   font-family: "Josefin Sans", sans-serif;
+  font-size: 2.5rem;
 }
 
-/* ====== container-wrapper ======*/
 
+/* ====== container-wrapper ====== */
 .container-wrapper {
   max-width: 768px;
   width: 768px;
 }
 
-/* ====== container ======*/
-
+/* ====== container ====== */
 .container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -46,25 +55,75 @@ body {
   height: 90vh;
 }
 
-/* ====== Start container-item  ======*/
-
+/* ====== container-item ====== */
 .container-item {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: transparent;
+  perspective: 1000px; /* Für den 3D-Effekt */
 }
 
-/* ====== title  ======*/
+.container-item.flipped .tile {
+  transform: rotateX(180deg); /* Drehung bei Klick */
+}
 
+/* ====== tile (Kachel) ====== */
+.tile {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+/* ====== front und back ====== */
+.front,
+.back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden; /* Rückseite ausblenden */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+/* Vorderseite */
+.front {
+  background-color: #c11f1f;
+  color: #ffffff;
+}
+
+/* Rückseite */
+.back {
+  background-color: #00661f;
+  color: #ffffff;
+  transform: rotateX(180deg);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ====== Titel (Header) ====== */
 .title {
   grid-row: span 2;
   grid-column: span 3;
-  color: #daa520;
-  font-size: 5rem;
+  color: #a33232;
+  font-size: 3.5rem;
+  text-align: center;
 }
 
-/* ======  Start Days  ======*/
+/* .red-tile .front {
+  background-color: #c11f1f;
+}
 
+.green-tile .front {
+  background-color: #00661f;
+} */
+
+/* ====== Besondere Tage ====== */
 .day1,
 .day10,
 .day14,
@@ -74,25 +133,6 @@ body {
   font-size: 4rem;
 }
 
-.day4,
-.day9,
-.day18,
-.day22 {
-  grid-column: span 2;
-  font-size: 3rem;
-}
-
-.day24 {
-  grid-row: span 2;
-  grid-column: span 2;
-  font-size: 5rem;
-}
-
-.day25 {
-  grid-row: span 2;
-  grid-column: span 3;
-  font-size: 8rem;
-}
 
 .day1 .front,
 .day3 .front,
@@ -110,45 +150,53 @@ body {
   background-color: #00661f;
 }
 
-/* ======  Animation  ======*/
-
-.container-item {
-  background-color: transparent;
-  perspective: 1000px;
+.day2 .back,
+.day4 .back,
+.day6 .back,
+.day8 .back,
+.day10 .back,
+.day12 .back,
+.day14 .back,
+.day16 .back,
+.day18 .back,
+.day20 .back,
+.day22 .back,
+.day24 .back {
+  background-color: #c11f1f;
 }
 
-.tile {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  transition: transform 0.8s;
-  transform-style: preserve-3d;
+
+
+.day4,
+.day9,
+.day18,
+.day22 {
+  grid-column: span 2;
+  font-size: 3rem;
 }
 
-.container-item:hover .tile {
-  transform: rotateX(180deg);
+.day24 {
+  grid-row: span 2;
+  grid-column: span 2;
+  font-size: 5rem;
 }
 
-.front,
-.back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  --webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
+
+/* ====== Zusätzliche Buttons ====== */
+button {
+  background-color: #c11f1f;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 2rem; /* Größere Icons */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.front {
-  background-color: #c11f1f;
-  color: #ffffff;
-  border-radius: 10px;
+button:hover {
+  background-color: #8b0000;
 }
 
-.back {
-  border-radius: 10px;
-  transform: rotateX(180deg);
-}
