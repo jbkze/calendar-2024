@@ -1,84 +1,91 @@
-// Funktion zum Erstellen des Adventskalenders
 function createAdventCalendar() {
-  const calendar = document.getElementById("calendar");
-
-  for (let day = 1; day <= 24; day++) {
-    // Container erstellen
-    const containerItem = document.createElement("div");
-    containerItem.className = `container-item day${day}`;
-
-    // Kachel-Design (rot/grün)
-    const isRedTile = Math.random() < 0.5;
-    containerItem.classList.add(isRedTile ? "red-tile" : "green-tile");
-
-    // Kachel erstellen
-    const tile = document.createElement("div");
-    tile.className = "tile";
-    tile.setAttribute("onclick", "flipTile(this)");
-
-    // Vorderseite
-    const front = document.createElement("div");
-    front.className = "front";
-    front.textContent = day;
-
-    // Rückseite
-    const back = document.createElement("div");
-    back.className = "back";
-
-    // Fake-Player erstellen
-    const fakePlayer = document.createElement("div");
-    fakePlayer.className = "fake-player";
-    fakePlayer.addEventListener("click", togglePlayer);
-
-    const playButton = document.createElement("button");
-    playButton.className = "play";
-    playButton.setAttribute("role", "play");
-
-    const pauseButton = document.createElement("button");
-    pauseButton.className = "pause hidden";
-    pauseButton.setAttribute("role", "pause");
-
-    fakePlayer.appendChild(playButton);
-    fakePlayer.appendChild(pauseButton);
-
-    // Audio-Element hinzufügen
-    const audio = document.createElement("audio");
-    audio.id = `audio${day}`;
-    audio.src = `audio${day}.mp3`;
-    back.appendChild(audio);
-
-    // Zusammenfügen
-    back.appendChild(fakePlayer);
-    tile.appendChild(front);
-    tile.appendChild(back);
-    containerItem.appendChild(tile);
-    calendar.appendChild(containerItem);
+    const calendar = document.getElementById("calendar");
+  
+    for (let day = 1; day <= 24; day++) {
+      // Erstelle ein container-item
+      const containerItem = document.createElement("div");
+      containerItem.className = `container-item day${day}`;
+  
+      // Wähle zufällig rot oder grün für jede Kachel
+      const isRedTile = Math.random() < 0.5;  // 50% Chance auf Rot
+    
+      // Füge die Farbe zur Kachel hinzu
+      if (isRedTile) {
+        containerItem.classList.add("red-tile");
+      } else {
+        containerItem.classList.add("green-tile");
+      }
+  
+      // Erstelle die Tile
+      const tile = document.createElement("div");
+      tile.className = "tile";
+      tile.setAttribute("onclick", "flipTile(this)");
+  
+      // Vorderseite
+      const front = document.createElement("div");
+      front.className = "front";
+      front.textContent = day;
+  
+      // Rückseite
+      const back = document.createElement("div");
+      back.className = "back";
+  
+      // Audio-Element
+      const audio = document.createElement("audio");
+      audio.id = `audio${day}`;
+      audio.src = `audio${day}.mp3`;
+  
+      // Play/Pause-Button
+      const button = document.createElement("button");
+      button.setAttribute("onclick", `toggleAudio(event, 'audio${day}')`);
+  
+      const icon = document.createElement("i");
+      icon.className = "fas fa-play";
+      button.appendChild(icon);
+  
+      // Zusammenfügen der Elemente
+      back.appendChild(audio);
+      back.appendChild(button);
+      tile.appendChild(front);
+      tile.appendChild(back);
+      containerItem.appendChild(tile);
+  
+      // Füge die Kachel dem Kalender hinzu
+      calendar.appendChild(containerItem);
+    }
   }
-}
-
-// Funktion für die Kachelrotation
+  
+  // Funktion aufrufen, um die Kacheln zu erstellen
+  createAdventCalendar();
+  
+  // Funktion, um die Fliese zu drehen
 function flipTile(tile) {
-  const containerItem = tile.closest(".container-item");
-  containerItem.classList.toggle("flipped");
-}
+    const containerItem = tile.closest(".container-item");
+    containerItem.classList.toggle("flipped");
+  }
+  
+  // Funktion, um Audio abzuspielen oder zu pausieren
+function toggleAudio(event, audioId) {
+  event.stopPropagation(); // Verhindert, dass der Flip ausgelöst wird
+  const audio = document.getElementById(audioId);
 
-// Funktion für das Umschalten von Play/Pause
-function togglePlayer(event) {
-  event.stopPropagation(); // Verhindert das Drehen der Kachel
-  const player = event.currentTarget;
-  const buttons = Array.from(player.children);
-  const audio = player.nextElementSibling;
+  // Sicherstellen, dass das Icon immer korrekt ausgewählt wird
+  let buttonIcon;
+  if (event.target.tagName === "BUTTON") {
+    buttonIcon = event.target.querySelector("i");
+  } else if (event.target.tagName === "I") {
+    buttonIcon = event.target; // Wenn direkt das Icon geklickt wird
+  }
 
-  // Buttons umschalten
-  buttons.forEach((button) => button.classList.toggle("hidden"));
-
-  // Audio steuern
   if (audio.paused) {
     audio.play();
+    buttonIcon.classList.remove("fa-play");
+    buttonIcon.classList.add("fa-pause");
   } else {
     audio.pause();
+    buttonIcon.classList.remove("fa-pause");
+    buttonIcon.classList.add("fa-play");
   }
 }
 
-// Adventskalender initialisieren
-createAdventCalendar();
+  
