@@ -65,19 +65,27 @@ function flipTile(tile) {
   }
   
   // Funktion, um Audio abzuspielen oder zu pausieren
-  function toggleAudio(event, audioId) {
-    event.stopPropagation(); // Verhindert, dass der Flip ausgelöst wird
-    const audio = document.getElementById(audioId);
-    const buttonIcon = event.target.querySelector("i");
-  
-    if (audio.paused) {
-      audio.play();
-      buttonIcon.classList.remove("fa-play");
-      buttonIcon.classList.add("fa-pause");
-    } else {
-      audio.pause();
-      buttonIcon.classList.remove("fa-pause");
-      buttonIcon.classList.add("fa-play");
-    }
+function toggleAudio(event, audioId) {
+  event.stopPropagation(); // Verhindert, dass der Flip ausgelöst wird
+  const audio = document.getElementById(audioId);
+
+  // Sicherstellen, dass das Icon immer korrekt ausgewählt wird
+  let buttonIcon;
+  if (event.target.tagName === "BUTTON") {
+    buttonIcon = event.target.querySelector("i");
+  } else if (event.target.tagName === "I") {
+    buttonIcon = event.target; // Wenn direkt das Icon geklickt wird
   }
+
+  if (audio.paused) {
+    audio.play();
+    buttonIcon.classList.remove("fa-play");
+    buttonIcon.classList.add("fa-pause");
+  } else {
+    audio.pause();
+    buttonIcon.classList.remove("fa-pause");
+    buttonIcon.classList.add("fa-play");
+  }
+}
+
   
