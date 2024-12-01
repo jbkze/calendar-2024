@@ -83,10 +83,21 @@ function flipTile(tile) {
     const today = new Date().getDate();
   
     if (day > today) {
-      // Zeige Toast an
-      showToast("Es ist... zu fassen! Noch etwas Geduld!");
+      // Berechne die verbleibenden Tage
+      const remainingDays = day - today;
+      let message;
+  
+      // Zeige Toast an mit der verbleibenden Schlafanzahl
+      if (remainingDays === 1) {
+        message = "Noch 1 Mal schlafen...";
+      } else {
+        message = `Noch ${remainingDays} Mal schlafen...`;
+      }
+  
+      showToast(message);
       //return; // Audio nicht abspielen
     }
+  
   
     // Sicherstellen, dass das Icon immer korrekt ausgewählt wird
     let buttonIcon;
