@@ -234,11 +234,17 @@ button {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Weicher Schatten */
   font-size: 16px; /* Etwas größere Schrift */
   font-family: Arial, sans-serif; /* Moderne Schriftart */
-  text-align: center; /* Text zentrieren */
   z-index: 1000;
   opacity: 0;
+  text-align: center; /* Text zentrieren */
+  display: flex; /* Flexbox nutzen */
+  justify-content: center; /* Inhalte horizontal zentrieren */
+  align-items: center; /* Inhalte vertikal zentrieren */
+  flex-wrap: wrap; /* Umbruch bei langen Texten erlauben */
+  max-width: 80%; /* Begrenzung der Breite für lange Texte */
   transition: opacity 0.3s ease-in-out;
 }
+
 
 .toast.hidden {
   display: none;
