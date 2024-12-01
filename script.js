@@ -84,7 +84,7 @@ function flipTile(tile) {
   
     if (day > today) {
       // Zeige Toast an
-      showToast("Es ist... zu fassen! Gedulde dich!");
+      showToast("Es ist... zu fassen! Noch etwas Geduld!");
       //return; // Audio nicht abspielen
     }
   
