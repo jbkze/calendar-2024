@@ -7,8 +7,9 @@ function createAdventCalendar() {
       containerItem.className = `container-item day${day}`;
   
       // Wähle zufällig rot oder grün für jede Kachel
-      const isRedTile = Math.random() < 0.5;  // 50% Chance auf Rot
-    
+      const isRedTile = day % 2 === 0;  // 50% Chance auf Rot
+      
+
       // Füge die Farbe zur Kachel hinzu
       if (isRedTile) {
         containerItem.classList.add("red-tile");
@@ -38,7 +39,13 @@ function createAdventCalendar() {
       // Play/Pause-Button
       const button = document.createElement("button");
       button.setAttribute("onclick", `toggleAudio(event, 'audio${day}')`);
-  
+      
+      if (isRedTile) {
+        button.classList.add("green-button");
+      } else {
+        button.classList.add("red-button");
+      }
+
       const icon = document.createElement("i");
       icon.className = "fas fa-play";
       button.appendChild(icon);
@@ -65,27 +72,54 @@ function flipTile(tile) {
   }
   
   // Funktion, um Audio abzuspielen oder zu pausieren
-function toggleAudio(event, audioId) {
-  event.stopPropagation(); // Verhindert, dass der Flip ausgelöst wird
-  const audio = document.getElementById(audioId);
-
-  // Sicherstellen, dass das Icon immer korrekt ausgewählt wird
-  let buttonIcon;
-  if (event.target.tagName === "BUTTON") {
-    buttonIcon = event.target.querySelector("i");
-  } else if (event.target.tagName === "I") {
-    buttonIcon = event.target; // Wenn direkt das Icon geklickt wird
+  function toggleAudio(event, audioId) {
+    event.stopPropagation(); // Verhindert, dass der Flip ausgelöst wird
+    const audio = document.getElementById(audioId);
+  
+    // Hole den Tag aus der Audio-ID (z. B. 'audio1' → 1)
+    const day = parseInt(audioId.replace('audio', ''), 10);
+  
+    // Aktuelles Datum
+    const today = new Date().getDate();
+  
+    if (day > today) {
+      // Zeige Toast an
+      showToast("Es ist... zu fassen! Gedulde dich!");
+      //return; // Audio nicht abspielen
+    }
+  
+    // Sicherstellen, dass das Icon immer korrekt ausgewählt wird
+    let buttonIcon;
+    if (event.target.tagName === "BUTTON") {
+      buttonIcon = event.target.querySelector("i");
+    } else if (event.target.tagName === "I") {
+      buttonIcon = event.target; // Wenn direkt das Icon geklickt wird
+    }
+  
+    if (audio.paused) {
+      audio.play();
+      buttonIcon.classList.remove("fa-play");
+      buttonIcon.classList.add("fa-pause");
+    } else {
+      audio.pause();
+      buttonIcon.classList.remove("fa-pause");
+      buttonIcon.classList.add("fa-play");
+    }
   }
-
-  if (audio.paused) {
-    audio.play();
-    buttonIcon.classList.remove("fa-play");
-    buttonIcon.classList.add("fa-pause");
-  } else {
-    audio.pause();
-    buttonIcon.classList.remove("fa-pause");
-    buttonIcon.classList.add("fa-play");
+  
+  // Toast anzeigen
+  function showToast(message) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.classList.remove("hidden");
+    toast.classList.add("visible");
+  
+    // Toast nach 3 Sekunden ausblenden
+    setTimeout(() => {
+      toast.classList.remove("visible");
+      toast.classList.add("hidden");
+    }, 5000);
   }
-}
+  
 
   

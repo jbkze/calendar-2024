@@ -115,13 +115,21 @@ body {
   text-align: center;
 }
 
-/* .red-tile .front {
+.red-tile .front {
+  background-color: #c11f1f;
+}
+
+.red-tile .back {
   background-color: #c11f1f;
 }
 
 .green-tile .front {
   background-color: #00661f;
-} */
+}
+
+.green-tile .back {
+  background-color: #00661f;
+}
 
 /* ====== Besondere Tage ====== */
 .day1,
@@ -131,38 +139,6 @@ body {
 .day23 {
   grid-row: span 2;
   font-size: 4rem;
-}
-
-
-.day1 .front,
-.day3 .front,
-.day5 .front,
-.day7 .front,
-.day9 .front,
-.day11 .front,
-.day13 .front,
-.day15 .front,
-.day17 .front,
-.day19 .front,
-.day21 .front,
-.day23 .front,
-.day25 .front {
-  background-color: #00661f;
-}
-
-.day2 .back,
-.day4 .back,
-.day6 .back,
-.day8 .back,
-.day10 .back,
-.day12 .back,
-.day14 .back,
-.day16 .back,
-.day18 .back,
-.day20 .back,
-.day22 .back,
-.day24 .back {
-  background-color: #c11f1f;
 }
 
 
@@ -183,21 +159,93 @@ body {
 
 
 /* ====== Zusätzliche Buttons ====== */
-button {
-  background-color: #c11f1f;
-  color: #ffffff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 2rem; /* Größere Icons */
-  display: flex;
-  aspect-ratio: 1 / 1;
-  justify-content: center;
-  align-items: center;
+:root {
+  --button-size: 4rem; /* Einheitliche Button-Größe */
 }
 
-button:hover {
+button {
+  width: var(--button-size);
+  height: var(--button-size);
+  border-radius: 50%; /* Runde Form */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  cursor: pointer;
+  border: none;
+  color: white;
+}
+
+.play {
+  height: 0;
+  width: 0;
+  margin-left: calc(2 * 0.14 * var(--button-size));
+  border: none;
+  border-top: calc(var(--button-size) / 2) solid transparent;
+  border-bottom: calc(var(--button-size) / 2) solid transparent;
+  border-left: var(--button-size) solid white; /* Farbe angepasst */
+}
+
+.pause {
+  position: relative;
+  width: var(--button-size);
+  height: var(--button-size);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: none;
+  border: none;
+}
+
+.pause::before,
+.pause::after {
+  content: "";
+  width: 30%; /* Breite der Balken */
+  height: 100%;
+  background-color: white; /* Balkenfarbe */
+}
+
+.red-button {
+  background-color: #c11f1f;
+}
+
+.green-button {
+  background-color: #00661f;
+}
+
+.green-button:hover {
+  background-color: #17552a;
+}
+
+.red-button:hover {
   background-color: #8b0000;
 }
+
+/* Toast Styling */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff; /* Weißer Hintergrund */
+  color: #333; /* Dunkler Text */
+  padding: 15px 25px; /* Größeres Padding für besseren Look */
+  border-radius: 15px; /* Runde Ecken */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Weicher Schatten */
+  font-size: 16px; /* Etwas größere Schrift */
+  font-family: Arial, sans-serif; /* Moderne Schriftart */
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.toast.hidden {
+  display: none;
+}
+
+.toast.visible {
+  display: block;
+  opacity: 1;
+}
+
 
